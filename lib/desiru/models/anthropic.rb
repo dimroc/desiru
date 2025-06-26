@@ -76,10 +76,8 @@ module Desiru
         end
 
         # Make API call
-        response = @client.messages.create(**params)
-
-        # Format response
-        format_response(response, model)
+        message = @client.messages.create(**params)
+        format_response(message, model)
       rescue ::Faraday::Error => e
         handle_api_error(e)
       end
@@ -114,17 +112,15 @@ module Desiru
         end
       end
 
-      def format_response(response, model)
-        content = extract_content(response)
-
+      def format_response(message, model)
         {
-          content: content,
-          raw: response,
+          content: extract_content(message),
+          raw: message,
           model: model,
           usage: {
-            prompt_tokens: response.dig('usage', 'input_tokens') || 0,
-            completion_tokens: response.dig('usage', 'output_tokens') || 0,
-            total_tokens: (response.dig('usage', 'input_tokens') || 0) + (response.dig('usage', 'output_tokens') || 0)
+            prompt_tokens: message.usage.input_tokens || 0,
+            completion_tokens: message.usage.output_tokens || 0,
+            total_tokens: (message.usage.input_tokens || 0) + (message.usage.output_tokens || 0)
           }
         }
       end
