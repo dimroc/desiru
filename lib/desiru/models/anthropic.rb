@@ -76,7 +76,7 @@ module Desiru
         end
 
         # Make API call
-        response = @client.messages(parameters: params)
+        response = @client.messages.create(**params)
 
         # Format response
         format_response(response, model)
