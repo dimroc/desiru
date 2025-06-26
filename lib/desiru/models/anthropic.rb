@@ -6,7 +6,7 @@ module Desiru
   module Models
     # Anthropic Claude model adapter
     class Anthropic < Base
-      DEFAULT_MODEL = 'claude-3-haiku-20240307'
+      DEFAULT_MODEL = 'claude-3-5-haiku-20241022'
 
       def initialize(config = {})
         super
